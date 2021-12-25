@@ -2,7 +2,7 @@ CREDS	:= .creds/.credential
 USER	:= $(shell sed -n '1p' $(CREDS))
 PASS	:= $(shell sed -n '2p' $(CREDS))
 
-build: login terraform
+build: login check terraform
 terraform: plan apply
 
 login:
