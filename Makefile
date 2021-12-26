@@ -7,7 +7,7 @@ FILE_PLAN	:= tfplan
 build: login check terraform
 terraform: init plan apply
 
-login: clean
+login:
 	az login -u "$(USER)" -p "$(PASS)"
 
 check:
@@ -26,6 +26,7 @@ apply:
 	terraform apply --auto-approve $(FILE_PLAN)
 
 clean:
-	rm -rf .terraform || true
+	rm -rf .terraform* || true
 	rm *.tfstate || true
 	rm *.tfstate.* || true
+	rm tfplan || true
