@@ -6,7 +6,7 @@ build: login check terraform
 terraform: plan apply
 
 login: clean
-	az login -u $(USER) -p $(PASS)
+	az login -u "$(USER)" -p "$(PASS)"
 
 check:
 	az account set --subscription $(shell az account list --query "[?user.name=='$(USER)'].{Name:name, ID:id, Default:isDefault}" | jq .[].ID)

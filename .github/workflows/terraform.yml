@@ -76,7 +76,7 @@ jobs:
     - name: Azune Login
       run: make login
 
-    # Login to Azure
+    # Checkout to Azure
     - name: Checkout account
       run: make check
 
