@@ -26,5 +26,3 @@ clean:
 	rm -rf .terraform || true
 	rm *.tfstate || true
 	rm *.tfstate.* || true
-
-#export TF_VAR_resource_group=$(az group list | jq '.[].name' | sed 's/\"//g')

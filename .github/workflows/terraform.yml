@@ -72,18 +72,19 @@ jobs:
 #      with:
 #        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
+    # Login to Azure
     - name: Azune Login
       run: make login
 
+    # Login to Azure
     - name: Checkout account
       run: make check
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
-    - name: Setup Terraform
+    - name: Terraform init
       run: |
         export TF_VAR_resource_group=$(az group list | jq '.[].name' | sed 's/\"//g')
         terraform init
-        terraform plan
 
 #    # Checks that all Terraform configuration files adhere to a canonical format
 #    - name: Terraform Format & validate
@@ -91,9 +92,9 @@ jobs:
 #        terraform validate
 #        terraform fmt -check
 
-    # Generates an execution plan for Terraform
-#    - name: Terraform Plan
-#      run: terraform plan
+     # Generates an execution plan for Terraform
+    - name: Terraform Plan
+      run: terraform plan
 
       # On push to main, build or change infrastructure according to Terraform configuration files
       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
