@@ -5,11 +5,12 @@ PASS	:= $(shell sed -n '2p' $(CREDS))
 build: login check terraform
 terraform: plan apply
 
-login:
+login: clean
 	az login -u $(USER) -p $(PASS)
 
 check:
 	az account set --subscription $(shell az account list --query "[?user.name=='$(USER)'].{Name:name, ID:id, Default:isDefault}" | jq .[].ID)
+	export TF_VAR_resource_group=$(shell az group list | jq '.[].name' | sed 's/\"//g')
 
 plan:
 	terraform get && \
@@ -21,4 +22,9 @@ plan:
 apply:
 	terraform apply --auto-approve
 
-#terraform import azurerm_resource_group.example /subscriptions/0f39574d-d756-48cf-b622-0e27a6943bd2/resourceGroups/example
+clean:
+	rm -rf .terraform || true
+	rm *.tfstate || true
+	rm *.tfstate.* || true
+
+#export TF_VAR_resource_group=$(az group list | jq '.[].name' | sed 's/\"//g')
